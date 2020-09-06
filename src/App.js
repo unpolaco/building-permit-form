@@ -5,18 +5,15 @@ import * as Yup from 'yup';
 
 export default function App() {
 	const ValidationSchema = Yup.object().shape({
-		// name: Yup.string().required('Required'),
-		// country: Yup.string().required('Required'),
-		// voivodeship: Yup.string().required('Required'),
-		// county: Yup.string().required('Required'),
-		// community: Yup.string().required('Required'),
+		name: Yup.string().required('Required'),
+		country: Yup.string().required('Required'),
+		voivodeship: Yup.string().required('Required'),
+		county: Yup.string().required('Required'),
+		community: Yup.string().required('Required'),
 		city: Yup.string().required('Required'),
 		street: Yup.string().required('Required'),
-		buildingNumber: Yup.number()
-			.typeError('must be a number')
-			.integer('fjfjdddddddddddddddddddddddjv'),
-		// .required('Required'),
-		localNumber: Yup.number().integer('fjfdddddddddddddddjjv'),
+		buildingNumber: Yup.string().required('Required'),
+		localNumber: Yup.string().required('Required'),
 		postalCode: Yup.string().required('Required'),
 		phone: Yup.string().required('Required'),
 		email: Yup.string().email('Must be an email address'),
@@ -25,11 +22,11 @@ export default function App() {
 		<Formik
 			class='wrapper'
 			initialValues={{
-				// name: '',
-				// country: '',
-				// voivodeship: '',
-				// county: '',
-				// community: '',
+				name: '',
+				country: '',
+				voivodeship: '',
+				county: '',
+				community: '',
 				city: '',
 				street: '',
 				buildingNumber: '',
@@ -52,7 +49,7 @@ export default function App() {
 						Prawo budowlane)
 					</p>
 					<ol>
-						{/* <li>
+						<li>
 							<b>
 								Proszę wpisać nazwę organu właściwego do wydania pozwolenia
 								(organ, do którego kierowany jest wniosek):
@@ -63,7 +60,6 @@ export default function App() {
 										class='long'
 										type='text'
 										name='departmentName'
-										required
 										autofocus
 									/>
 									<label class='animatedLabel' for='departmentName'>
@@ -85,8 +81,8 @@ export default function App() {
 								</div>
 								<Field type='checkbox' id='2.2' />
 								<label for='2.2'>
-									Wniosek o zmianę pozwolenia na budowę lub rozbiórkę z dnia
-									&nbsp&nbsp
+									Wniosek o zmianę pozwolenia na budowę lub rozbiórkę z dnia{' '}
+									{'\u00A0'}
 								</label>
 								<fieldset>
 									<Field class='short' type='text' id='changeProposalDate' />
@@ -94,7 +90,7 @@ export default function App() {
 										data wniosku
 									</label>
 								</fieldset>
-								<label for='changeProposalNumber'>nr &nbsp&nbsp</label>
+								<label for='changeProposalNumber'>nr {'\u00A0'}</label>
 								<fieldset>
 									<Field class='short' type='text' id='changeProposalNumber' />
 									<label class='animatedLabel' for='changeProposalNumber'>
@@ -102,7 +98,7 @@ export default function App() {
 									</label>
 								</fieldset>
 							</form>
-						</li> */}
+						</li>
 
 						<li>
 							<b>
@@ -110,36 +106,41 @@ export default function App() {
 								siedziby):
 							</b>
 							<form>
-								{/* <fieldset>
-									<Field class='long' type='text' name='name' required />
+								<fieldset>
+									<Field class='long' type='text' name='name' />
 									<label class='animatedLabel' for='name'>
 										imię i nazwisko lub nazwa inwestora
 									</label>
+									<ErrorMessage name='name' component='div' />
 								</fieldset>
 								<fieldset>
-									<Field type='text' name='country' required />
+									<Field type='text' name='country' />
 									<label class='animatedLabel' for='country'>
 										kraj
 									</label>
+									<ErrorMessage name='country' component='div' />
 								</fieldset>
 								<fieldset>
-									<Field type='text' name='voivodeship' required />
+									<Field type='text' name='voivodeship' />
 									<label class='animatedLabel' for='voivodeship'>
 										województwo
 									</label>
+									<ErrorMessage name='voivodeship' component='div' />
 								</fieldset>
 								<fieldset>
-									<Field type='text' name='county' required />
+									<Field type='text' name='county' />
 									<label class='animatedLabel' for='county'>
 										powiat
 									</label>
+									<ErrorMessage name='county' component='div' />
 								</fieldset>
 								<fieldset>
-									<Field type='text' name='community' required />
+									<Field type='text' name='community' />
 									<label class='animatedLabel' for='community'>
 										gmina
 									</label>
-								</fieldset> */}
+									<ErrorMessage name='community' component='div' />
+								</fieldset>
 								<fieldset>
 									<Field type='text' name='city' />
 									<label class='animatedLabel' for='city'>
