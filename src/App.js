@@ -12,13 +12,27 @@ export default function App() {
 		departmentName: Yup.string().required('Uzupełnij dane'),
 		changeProposalDate: Yup.date(),
 		changeProposalNumber: Yup.string(),
-		name: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
-		country: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
-		voivodeship: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
-		county: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
-		community: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
-		city: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
-		street: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
+		name: Yup.string()
+			.matches(letters, 'Niepoprawne dane')
+			.required('Uzupełnij dane'),
+		country: Yup.string()
+			.matches(letters, 'Niepoprawne dane')
+			.required('Uzupełnij dane'),
+		voivodeship: Yup.string()
+			.matches(letters, 'Niepoprawne dane')
+			.required('Uzupełnij dane'),
+		county: Yup.string()
+			.matches(letters, 'Niepoprawne dane')
+			.required('Uzupełnij dane'),
+		community: Yup.string()
+			.matches(letters, 'Niepoprawne dane')
+			.required('Uzupełnij dane'),
+		city: Yup.string()
+			.matches(letters, 'Niepoprawne dane')
+			.required('Uzupełnij dane'),
+		street: Yup.string()
+			.matches(letters, 'Niepoprawne dane')
+			.required('Uzupełnij dane'),
 		buildingNumber: Yup.string().required('Uzupełnij dane'),
 		localNumber: Yup.string(),
 		postalCode: Yup.string()
@@ -26,6 +40,8 @@ export default function App() {
 			.required('Uzupełnij dane'),
 		phone: Yup.string().matches(phoneRegExp, 'Niepoprawny numer telefonu'),
 		email: Yup.string().email('Niepoprawny adres email'),
+		newBuildingPermitCheckbox: Yup.boolean(),
+		changeBuildingPermitCheckbox: Yup.boolean(),
 	});
 
 	return (
@@ -47,6 +63,8 @@ export default function App() {
 				postalCode: '',
 				phone: '',
 				email: '',
+				newBuildingPermitCheckbox: false,
+				changeBuildingPermitCheckbox: false,
 			}}
 			validationSchema={ValidationSchema}
 			onSubmit={async (values) => {
@@ -54,7 +72,7 @@ export default function App() {
 				alert(JSON.stringify(values, null, 2));
 			}}
 		>
-			{({ handleSubmit, errors }) => (
+			{({ handleSubmit, values, errors }) => (
 				<Form onSubmit={handleSubmit}>
 					<h1>WNIOSEK O POZWOLENIE NA BUDOWĘ LUB ROZBIÓRKĘ (B-1)</h1>
 					<p className='center'>
@@ -87,45 +105,65 @@ export default function App() {
 							<b>Proszę oznaczyć znakiem X cel złożenia wniosku:</b>
 							<section>
 								<div className='smallwrapper'>
-									<Field type='checkbox' id='2.1' name='2.1' />
+									<Field
+										type='checkbox'
+										id='2.1'
+										name='newBuildingPermitCheckbox'
+									/>
+								<ErrorMessage name='newBuildingPermitCheckbox' component='div' />
 									<label htmlFor='2.1'>
 										Wniosek o pozwolenie na budowę lub rozbiórkę
 									</label>
 									<br />
 								</div>
-								<Field type='checkbox' id='2.2' name='2.2' />
+								<Field
+									type='checkbox'
+									id='2.2'
+									name='changeBuildingPermitCheckbox'
+								/>
+								<ErrorMessage name='changeBuildingPermitCheckbox' component='div' />
 								<label htmlFor='2.2'>
 									Wniosek o zmianę pozwolenia na budowę lub rozbiórkę z dnia{' '}
 									{'\u00A0'}
 								</label>
-								<fieldset>
-									<Field
-										className='short'
-										type='text'
-										id='changeProposalDate'
-										name='changeProposalDate'
-									/>
-									<label className='animatedLabel' htmlFor='changeProposalDate'>
-										data wniosku
-									</label>
-									<ErrorMessage name='changeProposalDate' component='div' />
-								</fieldset>
-								<label htmlFor='changeProposalNumber'>nr {'\u00A0'}</label>
-								<fieldset>
-									<Field
-										className='short'
-										type='text'
-										id='changeProposalNumber'
-										name='changeProposalNumber'
-									/>
-									<label
-										className='animatedLabel'
-										htmlFor='changeProposalNumber'
-									>
-										nr wniosku
-									</label>
-									<ErrorMessage name='changeProposalNumber' component='div' />
-								</fieldset>
+								{values.changeBuildingPermitCheckbox === true ? (
+									<>
+										<fieldset>
+											<Field
+												className='short'
+												type='text'
+												id='changeProposalDate'
+												name='changeProposalDate'
+											/>
+											<label
+												className='animatedLabel'
+												htmlFor='changeProposalDate'
+											>
+												data wniosku
+											</label>
+											<ErrorMessage name='changeProposalDate' component='div' />
+										</fieldset>
+										<label htmlFor='changeProposalNumber'>nr {'\u00A0'}</label>
+										<fieldset>
+											<Field
+												className='short'
+												type='text'
+												id='changeProposalNumber'
+												name='changeProposalNumber'
+											/>
+											<label
+												className='animatedLabel'
+												htmlFor='changeProposalNumber'
+											>
+												nr wniosku
+											</label>
+											<ErrorMessage
+												name='changeProposalNumber'
+												component='div'
+											/>
+										</fieldset>
+									</>
+								) : null}
 							</section>
 						</li>
 
