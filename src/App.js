@@ -3,25 +3,38 @@ import './App.css';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 
+const postalCodeRegExp = /^([0-9]{2})(-[0-9]{3})?$/i;
+const phoneRegExp = /(?<!\w)(\(?(\+|00)?48\)?)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}(?!\w)/;
+const letters = /[a-ząćęłńóśżźA-ZĄĆĘŁŃÓŚŹŻ]{4,150}/;
+
 export default function App() {
 	const ValidationSchema = Yup.object().shape({
-		name: Yup.string().required('Required'),
-		country: Yup.string().required('Required'),
-		voivodeship: Yup.string().required('Required'),
-		county: Yup.string().required('Required'),
-		community: Yup.string().required('Required'),
-		city: Yup.string().required('Required'),
-		street: Yup.string().required('Required'),
-		buildingNumber: Yup.string().required('Required'),
-		localNumber: Yup.string().required('Required'),
-		postalCode: Yup.string().required('Required'),
-		phone: Yup.string().required('Required'),
-		email: Yup.string().email('Must be an email address'),
+		departmentName: Yup.string().required('Uzupełnij dane'),
+		changeProposalDate: Yup.date(),
+		changeProposalNumber: Yup.string(),
+		name: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
+		country: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
+		voivodeship: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
+		county: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
+		community: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
+		city: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
+		street: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
+		buildingNumber: Yup.string().required('Uzupełnij dane'),
+		localNumber: Yup.string(),
+		postalCode: Yup.string()
+			.matches(postalCodeRegExp, 'Niepoprawny numer telefonu')
+			.required('Uzupełnij dane'),
+		phone: Yup.string().matches(phoneRegExp, 'Niepoprawny numer telefonu'),
+		email: Yup.string().email('Niepoprawny adres email'),
 	});
+
 	return (
 		<Formik
-			class='wrapper'
+			className='wrapper'
 			initialValues={{
+				departmentName: '',
+				changeProposalDate: '',
+				changeProposalNumber: '',
 				name: '',
 				country: '',
 				voivodeship: '',
@@ -44,7 +57,7 @@ export default function App() {
 			{({ handleSubmit, errors }) => (
 				<Form onSubmit={handleSubmit}>
 					<h1>WNIOSEK O POZWOLENIE NA BUDOWĘ LUB ROZBIÓRKĘ (B-1)</h1>
-					<p class='center'>
+					<p className='center'>
 						(podstawa prawna: art. 32 i art. 33 ustawy z dnia 7 lipca 1994 r. –
 						Prawo budowlane)
 					</p>
@@ -54,50 +67,66 @@ export default function App() {
 								Proszę wpisać nazwę organu właściwego do wydania pozwolenia
 								(organ, do którego kierowany jest wniosek):
 							</b>
-							<form>
+							<section>
 								<fieldset>
 									<Field
-										class='long'
+										className='long'
 										type='text'
 										name='departmentName'
-										autofocus
+										autoFocus
 									/>
-									<label class='animatedLabel' for='departmentName'>
+									<label className='animatedLabel' htmlFor='departmentName'>
 										nazwa urzędu
 									</label>
+									<ErrorMessage name='departmentName' component='div' />
 								</fieldset>
-							</form>
+							</section>
 						</li>
 
 						<li>
 							<b>Proszę oznaczyć znakiem X cel złożenia wniosku:</b>
-							<form>
-								<div class='smallwrapper'>
-									<Field type='checkbox' id='2.1' />
-									<label for='2.1'>
+							<section>
+								<div className='smallwrapper'>
+									<Field type='checkbox' id='2.1' name='2.1' />
+									<label htmlFor='2.1'>
 										Wniosek o pozwolenie na budowę lub rozbiórkę
 									</label>
 									<br />
 								</div>
-								<Field type='checkbox' id='2.2' />
-								<label for='2.2'>
+								<Field type='checkbox' id='2.2' name='2.2' />
+								<label htmlFor='2.2'>
 									Wniosek o zmianę pozwolenia na budowę lub rozbiórkę z dnia{' '}
 									{'\u00A0'}
 								</label>
 								<fieldset>
-									<Field class='short' type='text' id='changeProposalDate' />
-									<label class='animatedLabel' for='changeProposalDate'>
+									<Field
+										className='short'
+										type='text'
+										id='changeProposalDate'
+										name='changeProposalDate'
+									/>
+									<label className='animatedLabel' htmlFor='changeProposalDate'>
 										data wniosku
 									</label>
+									<ErrorMessage name='changeProposalDate' component='div' />
 								</fieldset>
-								<label for='changeProposalNumber'>nr {'\u00A0'}</label>
+								<label htmlFor='changeProposalNumber'>nr {'\u00A0'}</label>
 								<fieldset>
-									<Field class='short' type='text' id='changeProposalNumber' />
-									<label class='animatedLabel' for='changeProposalNumber'>
+									<Field
+										className='short'
+										type='text'
+										id='changeProposalNumber'
+										name='changeProposalNumber'
+									/>
+									<label
+										className='animatedLabel'
+										htmlFor='changeProposalNumber'
+									>
 										nr wniosku
 									</label>
+									<ErrorMessage name='changeProposalNumber' component='div' />
 								</fieldset>
-							</form>
+							</section>
 						</li>
 
 						<li>
@@ -105,45 +134,45 @@ export default function App() {
 								Proszę wpisać dane inwestora (w tym adres zamieszkania lub
 								siedziby):
 							</b>
-							<form>
+							<section>
 								<fieldset>
-									<Field class='long' type='text' name='name' />
-									<label class='animatedLabel' for='name'>
+									<Field className='long' type='text' name='name' />
+									<label className='animatedLabel' htmlFor='name'>
 										imię i nazwisko lub nazwa inwestora
 									</label>
 									<ErrorMessage name='name' component='div' />
 								</fieldset>
 								<fieldset>
 									<Field type='text' name='country' />
-									<label class='animatedLabel' for='country'>
+									<label className='animatedLabel' htmlFor='country'>
 										kraj
 									</label>
 									<ErrorMessage name='country' component='div' />
 								</fieldset>
 								<fieldset>
 									<Field type='text' name='voivodeship' />
-									<label class='animatedLabel' for='voivodeship'>
+									<label className='animatedLabel' htmlFor='voivodeship'>
 										województwo
 									</label>
 									<ErrorMessage name='voivodeship' component='div' />
 								</fieldset>
 								<fieldset>
 									<Field type='text' name='county' />
-									<label class='animatedLabel' for='county'>
+									<label className='animatedLabel' htmlFor='county'>
 										powiat
 									</label>
 									<ErrorMessage name='county' component='div' />
 								</fieldset>
 								<fieldset>
 									<Field type='text' name='community' />
-									<label class='animatedLabel' for='community'>
+									<label className='animatedLabel' htmlFor='community'>
 										gmina
 									</label>
 									<ErrorMessage name='community' component='div' />
 								</fieldset>
 								<fieldset>
 									<Field type='text' name='city' />
-									<label class='animatedLabel' for='city'>
+									<label className='animatedLabel' htmlFor='city'>
 										miejscowość
 									</label>
 									<ErrorMessage name='city' component='div' />
@@ -151,51 +180,51 @@ export default function App() {
 								<br />
 								<fieldset>
 									<Field type='text' name='street' />
-									<label class='animatedLabel' for='street'>
+									<label className='animatedLabel' htmlFor='street'>
 										ulica
 									</label>
 									<ErrorMessage name='street' component='div' />
 									{errors.street}
 								</fieldset>
 								<fieldset>
-									<Field class='short' type='text' name='buildingNumber' />
-									<label class='animatedLabel' for='buildingNumber'>
+									<Field className='short' type='text' name='buildingNumber' />
+									<label className='animatedLabel' htmlFor='buildingNumber'>
 										nr budynku
 									</label>
 									<ErrorMessage name='buildingNumber' component='div' />
 									{errors.buildingNumber}
 								</fieldset>
 								<fieldset>
-									<Field class='short' type='text' name='localNumber' />
-									<label class='animatedLabel' for='localNumber'>
+									<Field className='short' type='text' name='localNumber' />
+									<label className='animatedLabel' htmlFor='localNumber'>
 										nr lokalu
 									</label>
 									<ErrorMessage name='localNumber' component='div' />
 								</fieldset>
 								<fieldset>
-									<Field class='short' type='text' name='postalCode' />
-									<label class='animatedLabel' for='postalCode'>
+									<Field className='short' type='text' name='postalCode' />
+									<label className='animatedLabel' htmlFor='postalCode'>
 										kod pocztowy
 									</label>
 								</fieldset>
 								<fieldset>
 									<Field type='text' name='phone' />
-									<label class='animatedLabel' for='phone'>
+									<label className='animatedLabel' htmlFor='phone'>
 										telefon
 									</label>
 								</fieldset>
 								<fieldset>
 									<Field type='text' name='email' />
-									<label class='animatedLabel' for='email'>
+									<label className='animatedLabel' htmlFor='email'>
 										e-mail
 									</label>
 									<ErrorMessage name='email' component='div' />
 								</fieldset>
 								<br />
-								<button type='submit'>Wyślij</button>
-							</form>
+							</section>
 						</li>
 					</ol>
+					<button type='submit'>Wyślij</button>
 				</Form>
 			)}
 		</Formik>
