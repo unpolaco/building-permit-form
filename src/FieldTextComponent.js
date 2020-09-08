@@ -2,10 +2,10 @@ import React from 'react';
 import { Field, ErrorMessage } from 'formik';
 import './App.css';
 
-export default function FieldComponent({name, classInput, errors, values, labelText}) {
+export default function FieldTextComponent({name, classInput, errors, values, labelText}) {
 	return (
 		<fieldset>
-			<Field type='text' name={name} />
+			<Field className={classInput} type='text' name={name} />
 			<label className='animatedLabel' htmlFor={name}>
 				{labelText}
 			</label>
