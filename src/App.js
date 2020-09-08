@@ -1,7 +1,10 @@
 import React from 'react';
-import './App.css';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
+import './App.css';
+import FieldTextComponent from './FieldTextComponent';
+import FieldCheckBoxComponent from './FieldCheckBoxComponent';
+import fields from './assets/FieldsData';
 
 const postalCodeRegExp = /^([0-9]{2})(-[0-9]{3})?$/i;
 const phoneRegExp = /(?<!\w)(\(?(\+|00)?48\)?)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}(?!\w)/;
@@ -46,7 +49,6 @@ export default function App() {
 
 	return (
 		<Formik
-			className='wrapper'
 			initialValues={{
 				departmentName: '',
 				changeProposalDate: '',
@@ -73,193 +75,88 @@ export default function App() {
 			}}
 		>
 			{({ handleSubmit, values, errors }) => (
-				<Form onSubmit={handleSubmit}>
-					<h1>WNIOSEK O POZWOLENIE NA BUDOWĘ LUB ROZBIÓRKĘ (B-1)</h1>
-					<p className='center'>
+				<Form className='wrapper' onSubmit={handleSubmit}>
+					<h1 className='title'>
+						WNIOSEK O POZWOLENIE NA BUDOWĘ LUB ROZBIÓRKĘ (B-1)
+					</h1>
+					<p className='description center'>
 						(podstawa prawna: art. 32 i art. 33 ustawy z dnia 7 lipca 1994 r. –
 						Prawo budowlane)
 					</p>
 					<ol>
 						<li>
-							<b>
+							<p className='description bold'>
 								Proszę wpisać nazwę organu właściwego do wydania pozwolenia
 								(organ, do którego kierowany jest wniosek):
-							</b>
-							<section>
-								<fieldset>
-									<Field
-										className='long'
-										type='text'
-										name='departmentName'
-										autoFocus
-									/>
-									<label className='animatedLabel' htmlFor='departmentName'>
-										nazwa urzędu
-									</label>
-									<ErrorMessage name='departmentName' component='div' />
-								</fieldset>
-							</section>
+							</p>
+							<FieldTextComponent
+								autoFocus
+								name='departmentName'
+								labelText='nazwa urzędu'
+								classInput={errors.departmentName ? `errorColor long` : 'long'}
+								errors={errors.departmentName}
+								values={values.departmentName}
+							/>
 						</li>
-
 						<li>
-							<b>Proszę oznaczyć znakiem X cel złożenia wniosku:</b>
-							<section>
-								<div className='smallwrapper'>
-									<Field
-										type='checkbox'
-										id='2.1'
-										name='newBuildingPermitCheckbox'
+							<p className='description bold'>
+								Proszę oznaczyć znakiem X cel złożenia wniosku:
+							</p>
+							<FieldCheckBoxComponent
+								name='newBuildingPermitCheckbox'
+								errors={errors.newBuildingPermitCheckbox}
+								labelText='Wniosek o pozwolenie na budowę lub rozbiórkę'
+							/>
+							<br />
+							<FieldCheckBoxComponent
+								name='changeBuildingPermitCheckbox'
+								errors={errors.changeBuildingPermitCheckbox}
+								labelText='Wniosek o zmianę pozwolenia na budowę lub rozbiórkę z dnia'
+							/>
+							{values.changeBuildingPermitCheckbox === true ? (
+								<>
+									<FieldTextComponent
+										name='changeProposalDate'
+										labelText='data wniosku'
+										classFieldSet='leftMargin'
+										classInput={
+											errors.departmentName ? `errorColor short` : 'short'
+										}
+										errors={errors.changeProposalDate}
+										values={values.changeProposalDate}
 									/>
-								<ErrorMessage name='newBuildingPermitCheckbox' component='div' />
-									<label htmlFor='2.1'>
-										Wniosek o pozwolenie na budowę lub rozbiórkę
-									</label>
-									<br />
-								</div>
-								<Field
-									type='checkbox'
-									id='2.2'
-									name='changeBuildingPermitCheckbox'
-								/>
-								<ErrorMessage name='changeBuildingPermitCheckbox' component='div' />
-								<label htmlFor='2.2'>
-									Wniosek o zmianę pozwolenia na budowę lub rozbiórkę z dnia{' '}
-									{'\u00A0'}
-								</label>
-								{values.changeBuildingPermitCheckbox === true ? (
-									<>
-										<fieldset>
-											<Field
-												className='short'
-												type='text'
-												id='changeProposalDate'
-												name='changeProposalDate'
-											/>
-											<label
-												className='animatedLabel'
-												htmlFor='changeProposalDate'
-											>
-												data wniosku
-											</label>
-											<ErrorMessage name='changeProposalDate' component='div' />
-										</fieldset>
-										<label htmlFor='changeProposalNumber'>nr {'\u00A0'}</label>
-										<fieldset>
-											<Field
-												className='short'
-												type='text'
-												id='changeProposalNumber'
-												name='changeProposalNumber'
-											/>
-											<label
-												className='animatedLabel'
-												htmlFor='changeProposalNumber'
-											>
-												nr wniosku
-											</label>
-											<ErrorMessage
-												name='changeProposalNumber'
-												component='div'
-											/>
-										</fieldset>
-									</>
-								) : null}
-							</section>
+									<span className='description'>numer</span>
+									<FieldTextComponent
+										name='changeProposalNumber'
+										labelText='nr wniosku'
+										classFieldSet='leftMargin'
+										classInput={
+											errors.departmentName ? `errorColor short` : 'short'
+										}
+										errors={errors.changeProposalNumber}
+										values={values.changeProposalNumber}
+									/>
+								</>
+							) : null}
 						</li>
-
 						<li>
-							<b>
+							<p className='description bold'>
 								Proszę wpisać dane inwestora (w tym adres zamieszkania lub
 								siedziby):
-							</b>
-							<section>
-								<fieldset>
-									<Field className='long' type='text' name='name' />
-									<label className='animatedLabel' htmlFor='name'>
-										imię i nazwisko lub nazwa inwestora
-									</label>
-									<ErrorMessage name='name' component='div' />
-								</fieldset>
-								<fieldset>
-									<Field type='text' name='country' />
-									<label className='animatedLabel' htmlFor='country'>
-										kraj
-									</label>
-									<ErrorMessage name='country' component='div' />
-								</fieldset>
-								<fieldset>
-									<Field type='text' name='voivodeship' />
-									<label className='animatedLabel' htmlFor='voivodeship'>
-										województwo
-									</label>
-									<ErrorMessage name='voivodeship' component='div' />
-								</fieldset>
-								<fieldset>
-									<Field type='text' name='county' />
-									<label className='animatedLabel' htmlFor='county'>
-										powiat
-									</label>
-									<ErrorMessage name='county' component='div' />
-								</fieldset>
-								<fieldset>
-									<Field type='text' name='community' />
-									<label className='animatedLabel' htmlFor='community'>
-										gmina
-									</label>
-									<ErrorMessage name='community' component='div' />
-								</fieldset>
-								<fieldset>
-									<Field type='text' name='city' />
-									<label className='animatedLabel' htmlFor='city'>
-										miejscowość
-									</label>
-									<ErrorMessage name='city' component='div' />
-								</fieldset>
-								<br />
-								<fieldset>
-									<Field type='text' name='street' />
-									<label className='animatedLabel' htmlFor='street'>
-										ulica
-									</label>
-									<ErrorMessage name='street' component='div' />
-									{errors.street}
-								</fieldset>
-								<fieldset>
-									<Field className='short' type='text' name='buildingNumber' />
-									<label className='animatedLabel' htmlFor='buildingNumber'>
-										nr budynku
-									</label>
-									<ErrorMessage name='buildingNumber' component='div' />
-									{errors.buildingNumber}
-								</fieldset>
-								<fieldset>
-									<Field className='short' type='text' name='localNumber' />
-									<label className='animatedLabel' htmlFor='localNumber'>
-										nr lokalu
-									</label>
-									<ErrorMessage name='localNumber' component='div' />
-								</fieldset>
-								<fieldset>
-									<Field className='short' type='text' name='postalCode' />
-									<label className='animatedLabel' htmlFor='postalCode'>
-										kod pocztowy
-									</label>
-								</fieldset>
-								<fieldset>
-									<Field type='text' name='phone' />
-									<label className='animatedLabel' htmlFor='phone'>
-										telefon
-									</label>
-								</fieldset>
-								<fieldset>
-									<Field type='text' name='email' />
-									<label className='animatedLabel' htmlFor='email'>
-										e-mail
-									</label>
-									<ErrorMessage name='email' component='div' />
-								</fieldset>
-								<br />
-							</section>
+							</p>
+							{fields.map((field) => (
+								<>
+									<FieldTextComponent
+										key={field.name}
+										name={field.name}
+										labelText={field.labelText}
+										classInput={field.classInput}
+										errors={errors[field.name]}
+										values={values[field.name]}
+									/>
+									{field.name === 'city' ? <br /> : null}
+								</>
+							))}
 						</li>
 					</ol>
 					<button type='submit'>Wyślij</button>
