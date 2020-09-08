@@ -8,13 +8,13 @@ import fields from './assets/FieldsData';
 
 const postalCodeRegExp = /^([0-9]{2})(-[0-9]{3})?$/i;
 const phoneRegExp = /(?<!\w)(\(?(\+|00)?48\)?)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}(?!\w)/;
-const letters = /[a-ząćęłńóśżźA-ZĄĆĘŁŃÓŚŹŻ]{4,150}/;
+const letters = /^[a-ząćęłńóśżźA-ZĄĆĘŁŃÓŚŹŻ\s-]{4,150}$/;
 
 export default function App() {
-	const ValidationSchema = Yup.object().shape({
-		departmentName: Yup.string().required('Uzupełnij dane'),
-		changeProposalDate: Yup.date(),
-		changeProposalNumber: Yup.string(),
+	const validationSchema = Yup.object().shape({
+		departmentName: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
+		changeProposalDate: Yup.date('Niepoprawne dane'),
+		changeProposalNumber: Yup.string('Niepoprawne dane'),
 		name: Yup.string()
 			.matches(letters, 'Niepoprawne dane')
 			.required('Uzupełnij dane'),
@@ -39,42 +39,44 @@ export default function App() {
 		buildingNumber: Yup.string().required('Uzupełnij dane'),
 		localNumber: Yup.string(),
 		postalCode: Yup.string()
-			.matches(postalCodeRegExp, 'Niepoprawny numer telefonu')
+			.matches(postalCodeRegExp, 'Niepoprawny kod pocztowy')
 			.required('Uzupełnij dane'),
 		phone: Yup.string().matches(phoneRegExp, 'Niepoprawny numer telefonu'),
-		email: Yup.string().email('Niepoprawny adres email'),
+		email: Yup.string().email("Niepoprawny adres email"),
 		newBuildingPermitCheckbox: Yup.boolean(),
 		changeBuildingPermitCheckbox: Yup.boolean(),
 	});
+	
+	const initialValues = {
+		departmentName: '',
+		changeProposalDate: '',
+		changeProposalNumber: '',
+		name: '',
+		country: '',
+		voivodeship: '',
+		county: '',
+		community: '',
+		city: '',
+		street: '',
+		buildingNumber: '',
+		localNumber: '',
+		postalCode: '',
+		phone: '',
+		email: '',
+		newBuildingPermitCheckbox: false,
+		changeBuildingPermitCheckbox: false,
+	}
 
 	return (
 		<Formik
-			initialValues={{
-				departmentName: '',
-				changeProposalDate: '',
-				changeProposalNumber: '',
-				name: '',
-				country: '',
-				voivodeship: '',
-				county: '',
-				community: '',
-				city: '',
-				street: '',
-				buildingNumber: '',
-				localNumber: '',
-				postalCode: '',
-				phone: '',
-				email: '',
-				newBuildingPermitCheckbox: false,
-				changeBuildingPermitCheckbox: false,
-			}}
-			validationSchema={ValidationSchema}
+			initialValues={initialValues}
+			validationSchema={validationSchema}
 			onSubmit={async (values) => {
 				await new Promise((r) => setTimeout(r, 500));
 				alert(JSON.stringify(values, null, 2));
 			}}
 		>
-			{({ handleSubmit, values, errors }) => (
+			{({ handleSubmit, values, errors, touched }) => (
 				<Form className='wrapper' onSubmit={handleSubmit}>
 					<h1 className='title'>
 						WNIOSEK O POZWOLENIE NA BUDOWĘ LUB ROZBIÓRKĘ (B-1)
@@ -93,8 +95,9 @@ export default function App() {
 								autoFocus
 								name='departmentName'
 								labelText='nazwa urzędu'
-								classInput={errors.departmentName ? `errorColor long` : 'long'}
+								classInput='long'
 								errors={errors.departmentName}
+								touched={touched.departmentName}
 								values={values.departmentName}
 							/>
 						</li>
@@ -104,13 +107,11 @@ export default function App() {
 							</p>
 							<FieldCheckBoxComponent
 								name='newBuildingPermitCheckbox'
-								errors={errors.newBuildingPermitCheckbox}
 								labelText='Wniosek o pozwolenie na budowę lub rozbiórkę'
 							/>
 							<br />
 							<FieldCheckBoxComponent
 								name='changeBuildingPermitCheckbox'
-								errors={errors.changeBuildingPermitCheckbox}
 								labelText='Wniosek o zmianę pozwolenia na budowę lub rozbiórkę z dnia'
 							/>
 							{values.changeBuildingPermitCheckbox === true ? (
@@ -119,21 +120,19 @@ export default function App() {
 										name='changeProposalDate'
 										labelText='data wniosku'
 										classFieldSet='leftMargin'
-										classInput={
-											errors.departmentName ? `errorColor short` : 'short'
-										}
+										classInput='short'
 										errors={errors.changeProposalDate}
+										touched={touched.changeProposalDate}
 										values={values.changeProposalDate}
 									/>
-									<span className='description'>numer</span>
+									<span >numer</span>
 									<FieldTextComponent
 										name='changeProposalNumber'
 										labelText='nr wniosku'
 										classFieldSet='leftMargin'
-										classInput={
-											errors.departmentName ? `errorColor short` : 'short'
-										}
+										classInput='short'
 										errors={errors.changeProposalNumber}
+										touched={touched.changeProposalNumber}
 										values={values.changeProposalNumber}
 									/>
 								</>
@@ -150,6 +149,7 @@ export default function App() {
 										key={field.name}
 										name={field.name}
 										labelText={field.labelText}
+										touched={touched[field.name]}
 										classInput={field.classInput}
 										errors={errors[field.name]}
 										values={values[field.name]}

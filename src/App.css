@@ -5,24 +5,10 @@
 	font-family: 'Roboto', sans-serif;
 	font-size: 14px;
 }
-.wrapper {
-	margin: auto;
-	padding: 30px;
-	width: 1000px;
-	border: 1px solid #ccc;
-}
-.title {
-	font-size: 1.3rem;
-	text-align: center;
-	margin: 20px 0;
-}
+
+
 ol > li {
 	margin: 25px 0;
-}
-.description {
-	font-weight: 300;
-	font-size: 0.85rem;
-	line-height: 25px;
 }
 input {
 	margin: 15px 15px 10px 0;
@@ -43,7 +29,7 @@ input[type='checkbox'] {
 input:focus {
 	outline: none;
 }
-input:focus ~ .animatedLabel {
+input:focus ~ .labelEmpty {
 	top: -5px;
 	left: 5px;
 	font-size: 0.85em;
@@ -67,15 +53,39 @@ button:hover {
 	background-color: #4b7bec;
 	color: #ecf0f1;
 }
-/* form {
-padding: 0 15px;
-} */
 fieldset {
 	position: relative;
 	border: none;
 	display: inline;
 }
-.animatedLabel {
+.wrapper {
+	margin: auto;
+	padding: 30px;
+	width: 1000px;
+	border: 1px solid #ccc;
+}
+.title {
+	font-size: 1.3rem;
+	text-align: center;
+	margin: 20px 0;
+}
+.description {
+	font-weight: 300;
+	line-height: 25px;
+	margin: 0;
+}
+.checkboxWrapper {
+	margin: 15px 15px 10px 0;
+}
+.labelFilled {
+	position: absolute;
+	top: -5px;
+	left: 5px;
+	font-size: 0.85em;
+	color: #4b7bec;
+	transition: 0.3s ease all;
+}
+.labelEmpty {
 	position: absolute;
 	top: 17px;
 	left: 5px;
@@ -83,10 +93,6 @@ fieldset {
 	pointer-events: none;
 	transition: 0.3s ease all;
 }
-/* .official {
-  border: 2px solid black;
-  padding: 25px 15px;
-} */
 .long {
 	width: 818px;
 }
@@ -95,12 +101,6 @@ fieldset {
 }
 .center {
 	text-align: center;
-}
-/* .explanation {
-  white-space: pre;
-} */
-::placeholder {
-	color: #a5b1c2;
 }
 .errorText {
 	position: absolute;

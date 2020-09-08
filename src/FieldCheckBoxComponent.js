@@ -1,13 +1,12 @@
 import React from 'react';
-import { Field, ErrorMessage } from 'formik';
+import { Field } from 'formik';
 import './App.css';
 
-export default function FieldCheckBoxComponent({ name, errors, labelText }) {
+export default function FieldCheckBoxComponent({ name, labelText }) {
 	return (
-		<>
-			<Field type='checkbox' name={name} />
-			{errors ? <ErrorMessage name={name} component='div' /> : null}
+		<fieldSet className='checkboxWrapper'>
+			<Field type='checkbox' name={name} id={name}/>
 			<label htmlFor={name}>{labelText}</label>
-		</>
+		</fieldSet>
 	);
 }
