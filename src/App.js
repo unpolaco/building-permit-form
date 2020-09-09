@@ -86,9 +86,8 @@ export default function App() {
 								siedziby):
 							</p>
 							{fields.map((field) => (
-								<>
+								<React.Fragment key={field.name}>
 									<FieldTextComponent
-										key={field.name}
 										name={field.name}
 										labelText={field.labelText}
 										touched={touched[field.name]}
@@ -97,7 +96,7 @@ export default function App() {
 										values={values[field.name]}
 									/>
 									{field.name === 'city' ? <br /> : null}
-								</>
+								</React.Fragment>
 							))}
 						</li>
 					</ol>
