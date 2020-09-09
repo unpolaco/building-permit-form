@@ -5,8 +5,12 @@
 
 ##
 
-##### This project is continuation of [that project](https://github.com/unpolaco/Building-permit-application) which I wrote some time ago in HTML, CSS and VanillaJS.
+#### This project is continuation of [that project](https://github.com/unpolaco/Building-permit-application) which I wrote some time ago in HTML, CSS and VanillaJS.
 The idea was to make a digital version of polish building permit application form.
+
+### [LIVE DEMO](https://unpolaco.github.io/building-permit-form/)
+
+
 #
 ## Technologies
 
