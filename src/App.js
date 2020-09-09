@@ -1,71 +1,13 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import * as Yup from 'yup';
 import './App.css';
 import FieldTextComponent from './FieldTextComponent';
 import FieldCheckBoxComponent from './FieldCheckBoxComponent';
 import fields from './assets/FieldsData';
-
-const postalCodeRegExp = /^([0-9]{2})(-[0-9]{3})?$/i;
-const phoneRegExp = /(?<!\w)(\(?(\+|00)?48\)?)?[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}(?!\w)/;
-const letters = /^[a-ząćęłńóśżźA-ZĄĆĘŁŃÓŚŹŻ\s-]{4,150}$/;
+import {initialValues} from './Validation'
+import {validationSchema} from './Validation'
 
 export default function App() {
-	const validationSchema = Yup.object().shape({
-		departmentName: Yup.string().matches(letters, 'Niepoprawne dane').required('Uzupełnij dane'),
-		changeProposalDate: Yup.date('Niepoprawne dane'),
-		changeProposalNumber: Yup.string('Niepoprawne dane'),
-		name: Yup.string()
-			.matches(letters, 'Niepoprawne dane')
-			.required('Uzupełnij dane'),
-		country: Yup.string()
-			.matches(letters, 'Niepoprawne dane')
-			.required('Uzupełnij dane'),
-		voivodeship: Yup.string()
-			.matches(letters, 'Niepoprawne dane')
-			.required('Uzupełnij dane'),
-		county: Yup.string()
-			.matches(letters, 'Niepoprawne dane')
-			.required('Uzupełnij dane'),
-		community: Yup.string()
-			.matches(letters, 'Niepoprawne dane')
-			.required('Uzupełnij dane'),
-		city: Yup.string()
-			.matches(letters, 'Niepoprawne dane')
-			.required('Uzupełnij dane'),
-		street: Yup.string()
-			.matches(letters, 'Niepoprawne dane')
-			.required('Uzupełnij dane'),
-		buildingNumber: Yup.string().required('Uzupełnij dane'),
-		localNumber: Yup.string(),
-		postalCode: Yup.string()
-			.matches(postalCodeRegExp, 'Niepoprawny kod pocztowy')
-			.required('Uzupełnij dane'),
-		phone: Yup.string().matches(phoneRegExp, 'Niepoprawny numer telefonu'),
-		email: Yup.string().email("Niepoprawny adres email"),
-		newBuildingPermitCheckbox: Yup.boolean(),
-		changeBuildingPermitCheckbox: Yup.boolean(),
-	});
-	
-	const initialValues = {
-		departmentName: '',
-		changeProposalDate: '',
-		changeProposalNumber: '',
-		name: '',
-		country: '',
-		voivodeship: '',
-		county: '',
-		community: '',
-		city: '',
-		street: '',
-		buildingNumber: '',
-		localNumber: '',
-		postalCode: '',
-		phone: '',
-		email: '',
-		newBuildingPermitCheckbox: false,
-		changeBuildingPermitCheckbox: false,
-	}
 
 	return (
 		<Formik
@@ -125,7 +67,7 @@ export default function App() {
 										touched={touched.changeProposalDate}
 										values={values.changeProposalDate}
 									/>
-									<span >numer</span>
+									<span>numer</span>
 									<FieldTextComponent
 										name='changeProposalNumber'
 										labelText='nr wniosku'
