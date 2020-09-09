@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/building-permit-form/static/css/main.2a3c9e29.chunk.css",
+    "main.js": "/building-permit-form/static/js/main.607a5fbb.chunk.js",
+    "main.js.map": "/building-permit-form/static/js/main.607a5fbb.chunk.js.map",
+    "runtime-main.js": "/building-permit-form/static/js/runtime-main.cf45458f.js",
+    "runtime-main.js.map": "/building-permit-form/static/js/runtime-main.cf45458f.js.map",
+    "static/js/2.4222f9f6.chunk.js": "/building-permit-form/static/js/2.4222f9f6.chunk.js",
+    "static/js/2.4222f9f6.chunk.js.map": "/building-permit-form/static/js/2.4222f9f6.chunk.js.map",
+    "index.html": "/building-permit-form/index.html",
+    "precache-manifest.679eb7a2c28c5031f95e0a10fc82cd29.js": "/building-permit-form/precache-manifest.679eb7a2c28c5031f95e0a10fc82cd29.js",
+    "service-worker.js": "/building-permit-form/service-worker.js",
+    "static/css/main.2a3c9e29.chunk.css.map": "/building-permit-form/static/css/main.2a3c9e29.chunk.css.map",
+    "static/js/2.4222f9f6.chunk.js.LICENSE.txt": "/building-permit-form/static/js/2.4222f9f6.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.cf45458f.js",
+    "static/js/2.4222f9f6.chunk.js",
+    "static/css/main.2a3c9e29.chunk.css",
+    "static/js/main.607a5fbb.chunk.js"
+  ]
+}
